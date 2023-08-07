@@ -36,6 +36,6 @@ The input file should contain three lines:
 
 ## Sample Output
 
-Volume estimé du cône: 262.73140849918414
-Volume théorique du cône: 261.79938779914946
+    Volume estimé du cône: 262.73140849918414
+    Volume théorique du cône: 261.79938779914946
 
