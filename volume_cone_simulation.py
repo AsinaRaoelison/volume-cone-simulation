@@ -1,36 +1,36 @@
-import random
 import argparse
 import math
 
-def volume_cone_simulation(radius, height, n_simulations):
-    volume_theorique = (1/3) * math.pi * radius**2 * height
+def volume_cone_numerical_integration(radius, height, num_segments):
+    delta_z = height / num_segments
     volume_estime = 0
 
-    for _ in range(n_simulations):
-        x = random.uniform(0, radius)  # Génération aléatoire des coordonnées x, y, z dans le cube  43d5cdd4e3a0fbcf264fea1da9754c30
-        y = random.uniform(0, radius)
-        z = random.uniform(0, height)
+    for i in range(num_segments):
+        z1 = i * delta_z
+        z2 = (i + 1) * delta_z
 
-        # Vérifier si le point est à l'intérieur du cône en comparant avec l'équation du cône
-        if z <= (height / radius) * math.sqrt(x**2 + y**2):
-            volume_estime += 1
+        # Calculate the areas of the two circular cross-sections at different heights
+        area1 = math.pi * (radius * (1 - z1 / height))**2
+        area2 = math.pi * (radius * (1 - z2 / height))**2
 
-    volume_estime = volume_estime / n_simulations * (radius ** 2) * height
+        # Calculate the volume of the frustum between z1 and z2 and add it to the total volume
+        volume_estime += (area1 + area2) * delta_z / 2
 
-    return volume_estime, volume_theorique
+    return volume_estime
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("rayon", type=float, help="Rayon de la base du cône")
     parser.add_argument("hauteur", type=float, help="Hauteur du cône")
-    parser.add_argument("-n", "--nbsimul", type=int, default=10000, help="Nombre de simulations")
+    parser.add_argument("-n", "--numsegments", type=int, default=1000, help="Nombre de segments pour l'intégration")
     args = parser.parse_args()
 
     rayon = args.rayon
     hauteur = args.hauteur
-    n_simulations = args.nbsimul
+    num_segments = args.numsegments
 
-    volume_estime, volume_theorique = volume_cone_simulation(rayon, hauteur, n_simulations)
+    volume_estime = volume_cone_numerical_integration(rayon, hauteur, num_segments)
+    volume_theorique = (1/3) * math.pi * rayon**2 * hauteur
 
     print("Volume estimé du cône:", volume_estime)
     print("Volume théorique du cône:", volume_theorique)
