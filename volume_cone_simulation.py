@@ -18,19 +18,13 @@ def volume_cone_numerical_integration(radius, height, num_segments):
 
     return volume_estime
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("rayon", type=float, help="Rayon de la base du cône")
-    parser.add_argument("hauteur", type=float, help="Hauteur du cône")
-    parser.add_argument("-n", "--numsegments", type=int, default=1000, help="Nombre de segments pour l'intégration")
-    args = parser.parse_args()
+# Assign values directly for notebook execution
+rayon = 5.0  # Example radius
+hauteur = 10.0 # Example height
+num_segments = 1000 # Example number of segments
 
-    rayon = args.rayon
-    hauteur = args.hauteur
-    num_segments = args.numsegments
+volume_estime = volume_cone_numerical_integration(rayon, hauteur, num_segments)
+volume_theorique = (1/3) * math.pi * rayon**2 * hauteur
 
-    volume_estime = volume_cone_numerical_integration(rayon, hauteur, num_segments)
-    volume_theorique = (1/3) * math.pi * rayon**2 * hauteur
-
-    print("Volume estimé du cône:", volume_estime)
-    print("Volume théorique du cône:", volume_theorique)
+print("Volume estimé du cône:", volume_estime)
+print("Volume théorique du cône:", volume_theorique)
